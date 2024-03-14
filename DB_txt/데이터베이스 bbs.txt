@@ -1,0 +1,7 @@
+bbsID int 게시글 번호
+bbsTitle varchar(50)게시글 제목
+userID varchar(20) 작성자 아이디
+bbsDate datetime 날짜
+bbsContent varchar(2048) 게시글 내용
+bbsAvailable int 삭제 여부 삭제된 글 0, 삭제 안된글 1
+prinarykey(bbsID)
