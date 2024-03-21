@@ -15,6 +15,10 @@
 
 <title>JSP 게시판 웹 사이트</title>
 </head>
+
+
+
+<!-- 네비 게이션 부분 건들일 필요 없음 -->
 <body>
 	<% 
 		String userID = null;
@@ -25,7 +29,7 @@
 		if(request.getParameter("bbsID") != null){
 			//System.out.printf("%s%n",request.getParameter("bbsID"));
 			bbsID = Integer.parseInt(request.getParameter("bbsID"));
-			//System.out.println("bbsID : "+ bbsID);
+			System.out.println("bbsID : "+ bbsID);
 		}
 		if(bbsID == 0){
 			PrintWriter script = response.getWriter();
@@ -86,13 +90,16 @@
 			
 		</div>
 	</nav>
+	
+	
+<!-- 게시글 출력 부분-->
+
 	<div class="container">
 		<div class="row">
-			<table class="table table-striped" style="text-align; center; broder: 1px solid #dddddd">
+			<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
 				<thead>
 					<tr>
 						<th colspan="3" style="background-color: #eeeeee; text-align: center;">게시판 글 보기</th>
-
 					</tr>
 				</thead>
 				<tbody>
@@ -123,9 +130,50 @@
 			<% 
 				}
 			%>
-			<input type="submit" class="btn btn-primary pull-right" value="글쓰기">
 		</div>
 	</div>
+	<!-- 댓글 출력 부분 border: 1px solid #dddddd; 이거 테두리 -->	
+	<div class="container"><br><br><br><br>
+	    <div class="row">
+	        <table class="table table-striped" style="width: 100%; text-align: center; ">
+	            <thead>
+	                <tr>
+	                    <th colspan="3" style="text-align: left;">전체 댓글 개수</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr>
+	                    <td colspan="1" style="width: 10%;"><%= bbs.getUserID() %></td>
+	                    <td colspan="1" style="text-align: left;">- <%= bbs.getBbsTitle().replaceAll(" ","&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>                  
+	                    <td colspan="1" style="width: 10%;"><%=bbs.getBbsDate().substring(0,11) + bbs.getBbsDate().substring(11,16) %></td>            
+	                </tr>           
+	            </tbody>
+	        </table>
+	    </div>
+	</div>
+	
+	<!-- 댓글 출력 작성 부분 -->	
+	<div class="container">
+		<div class="row">
+			<form method="post" action="commentWriteAction.jsp">
+				<input type="hidden" name="bbsID" value="<%= bbsID %>">
+				<table class="table table-striped" style="text-align; center; broder: 1px solid #dddddd">
+					<thead>
+						<tr>
+							<th colspan="2" style="background-color: #eeeeee; text-align: center;">댓글</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><textarea class="form-control" placeholder="댓글 내용" name="commentContent" maxlength="100" style="height: 50px"></textarea></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="submit" class="btn btn-primary pull-right" value="댓글 작성">
+			</form>		
+		</div>
+	</div>
+	 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 </body>

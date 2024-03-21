@@ -13,14 +13,14 @@ public class BbsDAO {
 	public BbsDAO() {
 		try {
 			String dbURL = "jdbc:mysql://localhost:3306/BBS";
-			String dbID = "root";
-			String dbPassword = "mymysql";
+			String dbID = "test";
+			String dbPassword = "12345";
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		}
+	}
 		
 		public String getDate() {
 			String SQL = "SELECT NOW()";
@@ -52,6 +52,7 @@ public class BbsDAO {
 		}
 		
 		public int write(String bbsTitle, String userID, String bbsContent) {
+			System.out.println("write 함수 내부");
 			String SQL = "INSERT INTO BBS VALUES(?,?,?,?,?,?)";
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(SQL);

@@ -14,10 +14,11 @@ public class UserDAO {
 	public UserDAO() {
 		try {
 			String dbURL = "jdbc:mysql://localhost:3306/BBS";
-			String dbID = "root";
-			String dbPassword = "mymysql";
+			String dbID = "test";
+			String dbPassword = "12345";
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+			System.out.println("디비 연결 성공");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
