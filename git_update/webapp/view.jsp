@@ -3,6 +3,9 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="bbs.Bbs" %>
 <%@ page import="bbs.BbsDAO" %>
+<%@ page import="bbs_comment.Bbs_comment" %>
+<%@ page import="bbs_comment.Bbs_commentDAO" %>
+<%@ page import="java.util.ArrayList" %>
 
 
 <!DOCTYPE html>
@@ -40,6 +43,12 @@
 		}
 		
 		Bbs bbs = new BbsDAO().getBbs(bbsID);
+		Bbs_comment bbs_comment = new Bbs_comment();
+		Bbs_commentDAO bbs_commentDAO = new Bbs_commentDAO();
+		System.out.println(bbs_commentDAO.count(bbsID));
+		ArrayList<Bbs_comment> clist = bbs_commentDAO.getCommentList(bbsID);
+		
+		
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -117,7 +126,7 @@
 					</tr>
 					<tr>
 						<td>내용</td>
-						<td colspan="2" style="min-height: 200px; text-align: left;"><%= bbs.getBbsContent().replaceAll(" ","&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
+						<td colspan="2" style="min-height: 300px; text-align: left;"><%= bbs.getBbsContent().replaceAll(" ","&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
 					</tr>
 				</tbody>
 			</table>
@@ -132,27 +141,35 @@
 			%>
 		</div>
 	</div>
-	<!-- 댓글 출력 부분 border: 1px solid #dddddd; 이거 테두리 -->	
+	<!-- 댓글 출력 부분 border: 1px solid 이거 테두리 -->	
 	<div class="container"><br><br><br><br>
 	    <div class="row">
 	        <table class="table table-striped" style="width: 100%; text-align: center; ">
 	            <thead>
 	                <tr>
-	                    <th colspan="3" style="text-align: left;">전체 댓글 개수</th>
+	                    <th colspan="3" style="text-align: left;">전체 댓글 개수 : <%=clist.size()%>개</th>
 	                </tr>
 	            </thead>
 	            <tbody>
-	                <tr>
-	                    <td colspan="1" style="width: 10%;"><%= bbs.getUserID() %></td>
-	                    <td colspan="1" style="text-align: left;">- <%= bbs.getBbsTitle().replaceAll(" ","&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>                  
-	                    <td colspan="1" style="width: 10%;"><%=bbs.getBbsDate().substring(0,11) + bbs.getBbsDate().substring(11,16) %></td>            
-	                </tr>           
+
+                	<%
+                		for(int i = 0; i < clist.size(); i++){   		
+                	%>		
+						<tr>
+							<td colspan="1" style="width: 10%;" ><%= clist.get(i).getUserID() %></td>
+							<td colspan="1" style="width: 10%; text-align: left; "><%= clist.get(i).getCommentContent().replaceAll(" ","&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
+							<td colspan="2" style="text-align: right;"><%= clist.get(i).getCommentDate().substring(0,11) + bbs.getBbsDate().substring(11,13) + "시" + bbs.getBbsDate().substring(14,16) + "분" %></td>
+						</tr>
+                	<%
+                		}
+                	%>
+         
 	            </tbody>
 	        </table>
 	    </div>
 	</div>
 	
-	<!-- 댓글 출력 작성 부분 -->	
+	<!-- 댓글 작성 부분 -->	
 	<div class="container">
 		<div class="row">
 			<form method="post" action="commentWriteAction.jsp">

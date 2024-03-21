@@ -3,6 +3,8 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="bbs.BbsDAO" %>
 <%@ page import="bbs.Bbs" %>
+<%@ page import="bbs_comment.Bbs_comment" %>
+<%@ page import="bbs_comment.Bbs_commentDAO" %>
 <%@ page import="java.util.ArrayList" %>
 
 <!DOCTYPE html>
@@ -92,12 +94,15 @@
 						<th style="background-color: #eeeeee; text-align: center;">제목</th>
 						<th style="background-color: #eeeeee; text-align: center;">작성자</th>
 						<th style="background-color: #eeeeee; text-align: center;">작성일</th>
+						<th style="background-color: #eeeeee; text-align: center;">댓글 수</th>
 					</tr>
 				</thead>
 				<tbody>
 					<%
 						BbsDAO bbsDAO = new BbsDAO();
+						Bbs_commentDAO bbs_commentDAO = new Bbs_commentDAO();
 						ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
+						System.out.println(list.size());
 						for(int i = 0; i < list.size(); i++){
 					%>
 					<tr>
@@ -105,6 +110,8 @@
 						<td style="text-align: center;"><a href="view.jsp?bbsID=<%= list.get(i).getBbsID() %>"><%= list.get(i).getBbsTitle().replaceAll(" ","&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></a></td>
 						<td style="text-align: center;"><%= list.get(i).getUserID()%></td>
 						<td style="text-align: center;"><%= list.get(i).getBbsDate().substring(0,11) + list.get(i).getBbsDate().substring(11,13) + "시" + list.get(i).getBbsDate().substring(14,16) + "분" %></td>
+						<td style="text-align: center;"><%= bbs_commentDAO.count(list.get(i).getBbsID())%></td>
+
 					</tr>
 					<%		
 						}

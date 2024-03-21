@@ -34,7 +34,7 @@
 			script.println("</script>");
 		}else{
 			//아무 내용도 입력되지 않았을 때
-			//System.out.println("WW bbsID : "+ bbs_comment.getBbsID());
+			System.out.println("WW bbsID : "+ bbs_comment.getBbsID());
 			if(bbs_comment.getCommentContent() == null){
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
@@ -58,7 +58,7 @@
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
 					script.println("alert('댓글이 등록되었습니다.')");
-					script.println("history.back()");
+					script.println("location.href = 'view.jsp?bbsID="+bbs_comment.getBbsID()+"'");
 					script.println("</script>");
 				}
 			}
