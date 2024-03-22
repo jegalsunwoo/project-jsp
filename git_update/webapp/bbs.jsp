@@ -25,7 +25,21 @@
 </style>
 </head>
 <body>
+
 	<% 
+		//bbs.jsp화면에서 게시물을 클릭하여 들어갈 때만 조회수가 올라가도록
+		//count변수 0 으로 선언
+		//세션에 count이름으로 0 저장
+		//view.jsp에서 count이름의 세션을 호출하여 받은 값을 view.jsp에서 선언한 count에저장 -> 0
+		//count가 0 일 경우에 count값을 1증가시켜주고 -> 조회수 증가 함수 실행 및 세션에 count라는 이름으로 1 저장
+		//세션은 동일 브라우저 내에서 유지됨
+		//다시 게시판으로 돌아와서 session.setAttribute("count", count); count를 0으로 초기화 해주지 않으면 새로고침을 하여도
+		//동일 브라우저 내에서는 조회수가 증가하지 않는다.
+		int count = 0;
+		System.out.println("count" + count);
+		session.setAttribute("count", count);
+		
+		
 		String userID = null;
 		if(session.getAttribute("userID") != null){
 			userID = (String) session.getAttribute("userID");
@@ -33,7 +47,7 @@
 		int pageNumber =1;
 		if(request.getParameter("pageNumber") != null){
 			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-			System.out.println("pageNumber : "+pageNumber);
+			//System.out.println("pageNumber : "+pageNumber);
 		}
 	%>
 	<nav class="navbar navbar-default">
@@ -95,6 +109,7 @@
 						<th style="background-color: #eeeeee; text-align: center;">작성자</th>
 						<th style="background-color: #eeeeee; text-align: center;">작성일</th>
 						<th style="background-color: #eeeeee; text-align: center;">댓글 수</th>
+						<th style="background-color: #eeeeee; text-align: center;">조회수</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -102,7 +117,7 @@
 						BbsDAO bbsDAO = new BbsDAO();
 						Bbs_commentDAO bbs_commentDAO = new Bbs_commentDAO();
 						ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
-						System.out.println(list.size());
+						//System.out.println(list.size());
 						for(int i = 0; i < list.size(); i++){
 					%>
 					<tr>
@@ -111,7 +126,7 @@
 						<td style="text-align: center;"><%= list.get(i).getUserID()%></td>
 						<td style="text-align: center;"><%= list.get(i).getBbsDate().substring(0,11) + list.get(i).getBbsDate().substring(11,13) + "시" + list.get(i).getBbsDate().substring(14,16) + "분" %></td>
 						<td style="text-align: center;"><%= bbs_commentDAO.count(list.get(i).getBbsID())%></td>
-
+						<td style="text-align: center;"><%= list.get(i).getViewCount()%></td>
 					</tr>
 					<%		
 						}

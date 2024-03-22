@@ -32,7 +32,7 @@
 		if(request.getParameter("bbsID") != null){
 			//System.out.printf("%s%n",request.getParameter("bbsID"));
 			bbsID = Integer.parseInt(request.getParameter("bbsID"));
-			System.out.println("bbsID : "+ bbsID);
+			//System.out.println("bbsID : "+ bbsID);
 		}
 		if(bbsID == 0){
 			PrintWriter script = response.getWriter();
@@ -43,12 +43,23 @@
 		}
 		
 		Bbs bbs = new BbsDAO().getBbs(bbsID);
+		BbsDAO bbsDAO = new BbsDAO();
 		Bbs_comment bbs_comment = new Bbs_comment();
 		Bbs_commentDAO bbs_commentDAO = new Bbs_commentDAO();
-		System.out.println(bbs_commentDAO.count(bbsID));
+		
+		//System.out.println("댓글 수" + bbs_commentDAO.count(bbsID));
 		ArrayList<Bbs_comment> clist = bbs_commentDAO.getCommentList(bbsID);
 		
 		
+		// 세션에서 변수 count를 가져옵니다.
+		int count = (Integer) session.getAttribute("count");
+		System.out.println("1view Count: " + count);
+		if(count == 0){
+			count++;
+			System.out.println("2view Count: " + count);
+			session.setAttribute("count", count);
+			bbsDAO.viewCountUpdate(bbsID);
+		}
 	%>
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -156,9 +167,9 @@
                 		for(int i = 0; i < clist.size(); i++){   		
                 	%>		
 						<tr>
-							<td colspan="1" style="width: 10%;" ><%= clist.get(i).getUserID() %></td>
-							<td colspan="1" style="width: 10%; text-align: left; "><%= clist.get(i).getCommentContent().replaceAll(" ","&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
-							<td colspan="2" style="text-align: right;"><%= clist.get(i).getCommentDate().substring(0,11) + bbs.getBbsDate().substring(11,13) + "시" + bbs.getBbsDate().substring(14,16) + "분" %></td>
+							<td colspan="1" style="width: 10%; text-align: left;" ><%= clist.get(i).getUserID() %></td>
+							<td colspan="1" style="width: 75%; text-align: left;"><%= clist.get(i).getCommentContent().replaceAll(" ","&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
+							<td colspan="2" style="width: 15%; text-align: right;"><%= clist.get(i).getCommentDate() %></td>
 						</tr>
                 	<%
                 		}

@@ -71,7 +71,7 @@ public class Bbs_commentDAO {
 	}
 	
 	public ArrayList<Bbs> getList(int pageNumber){
-		System.out.println("getList() 함수 내부");
+		//System.out.println("getList() 함수 내부");
 		String SQL = "SELECT * FROM BBS WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10";
 		ArrayList<Bbs> list = new ArrayList<Bbs>();
 		try {
@@ -95,7 +95,7 @@ public class Bbs_commentDAO {
 	}
 	
 	public ArrayList<Bbs_comment> getCommentList(int bbsID) {
-		System.out.println("getCommentList() 함수 내부");
+		//System.out.println("getCommentList() 함수 내부");
 		String SQL = "SELECT * FROM BBS_COMMENT WHERE bbsID = ?";
 		ArrayList<Bbs_comment> commentList = new ArrayList<Bbs_comment>();
 		try {
@@ -128,7 +128,7 @@ public class Bbs_commentDAO {
 			pstmt.setInt(1, bbsID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				System.out.println(rs.getInt(1));
+				//System.out.println(rs.getInt(1));
 	            return rs.getInt(1);
 	        }
 		}catch(Exception e) {

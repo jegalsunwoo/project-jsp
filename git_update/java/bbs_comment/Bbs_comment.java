@@ -32,6 +32,7 @@ public class Bbs_comment {
 	public void setCommentDate(String commentDate) {
 		this.commentDate = commentDate;
 	}
+
 	public int getCommentAvailable() {
 		return commentAvailable;
 	}
