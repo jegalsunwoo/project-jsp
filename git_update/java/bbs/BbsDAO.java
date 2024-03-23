@@ -63,6 +63,7 @@ public class BbsDAO {
 				pstmt.setString(5,bbsContent);
 				pstmt.setInt(6,1);
 				pstmt.setInt(7,0);
+				System.out.println("write 완료. ");
 				return pstmt.executeUpdate();
 			}catch(Exception e) {
 				e.printStackTrace();

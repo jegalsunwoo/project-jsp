@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,7 +75,7 @@
 	</nav>
 	<div class="container">
 		<div class="row">
-		<form method="post" action="writeAction.jsp">
+		<form method="post" action="writeAction.jsp" enctype="multipart/form-data">
 			<table class="table table-striped" style="text-align; center; broder: 1px solid #dddddd">
 				<thead>
 					<tr>
@@ -86,6 +92,7 @@
 					</tr>
 				</tbody>
 			</table>
+			file:<input type="file" name ="file"><br>
 			<input type="submit" class="btn btn-primary pull-right" value="글쓰기">
 		</form>
 			
