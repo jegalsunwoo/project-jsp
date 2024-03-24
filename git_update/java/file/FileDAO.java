@@ -38,4 +38,24 @@ public class FileDAO {
 		}
 		return -1;
 	}
+	
+	public String selectFileName(int bbsID) {
+		
+		String SQL = "SELECT realFileName FROM BBS_FILE WHERE bbsID = ?";
+	
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1,bbsID);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getString(1);
+			}
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return ""; // 데이터베이스 오류
+	}
+	
+	
 }

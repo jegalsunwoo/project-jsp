@@ -55,6 +55,9 @@
 		// 받아온 변수 처리
 		String bbsTitle = multipartRequest.getParameter("bbsTitle");
 		String bbsContent = multipartRequest.getParameter("bbsContent");
+		System.out.println("bbsT : " + bbsTitle);
+
+		System.out.println("bbsContent : " + bbsContent);
 		bbs.setBbsTitle(bbsTitle);
 		bbs.setBbsContent(bbsContent);
 		
@@ -76,7 +79,7 @@
 			//null값이 아니라 ""이기 때문에 isEmpty() true일 경우 추가
 			if(bbsTitle == null || bbsTitle.isEmpty() ||  bbsContent == null || bbsContent.isEmpty()){
 				
-				System.out.println("시발 뭐지?");
+				System.out.println("뭐지?");
 				
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
@@ -95,7 +98,7 @@
 				//파일  db 저장
 				bbs.setBbsID(bbsDAO.getNext()-1);
 				new FileDAO().upload(fileName,bbs.getBbsID(),realFileName);
-				System.out.println("시발 : "+bbs.getBbsID());
+				System.out.println("허허 : "+bbs.getBbsID());
 				out.write("filename : " + fileName + "<br>");
 				
 				if(result == -1){

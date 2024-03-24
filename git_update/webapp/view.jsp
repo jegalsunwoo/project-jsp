@@ -3,6 +3,8 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="bbs.Bbs" %>
 <%@ page import="bbs.BbsDAO" %>
+<%@ page import="file.File" %>
+<%@ page import="file.FileDAO" %>
 <%@ page import="bbs_comment.Bbs_comment" %>
 <%@ page import="bbs_comment.Bbs_commentDAO" %>
 <%@ page import="java.util.ArrayList" %>
@@ -46,6 +48,11 @@
 		BbsDAO bbsDAO = new BbsDAO();
 		Bbs_comment bbs_comment = new Bbs_comment();
 		Bbs_commentDAO bbs_commentDAO = new Bbs_commentDAO();
+		
+		//
+		FileDAO fileDAO = new FileDAO();
+		String fileName = fileDAO.selectFileName(bbsID);
+		System.out.println(fileName);
 		
 		//System.out.println("댓글 수" + bbs_commentDAO.count(bbsID));
 		ArrayList<Bbs_comment> clist = bbs_commentDAO.getCommentList(bbsID);
@@ -124,21 +131,39 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td style="width: 20%;">글 제목</td>
+						<td style="text-align: center; border: 1px solid #dddddd; width: 10%;">글 제목</td>
 						<td colspan="2"><%= bbs.getBbsTitle().replaceAll(" ","&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
 					</tr>
 					<tr>
-						<td>작성자</td>
+						<td style="text-align: center; border: 1px solid #dddddd; width: 10%;">작성자</td>
 						<td colspan="2"><%= bbs.getUserID() %></td>
 					</tr>
 					<tr>
-						<td>작성일자</td>
+						<td style="text-align: center; border: 1px solid #dddddd; width: 10%;">작성일자</td>
 						<td colspan="2"><%= bbs.getBbsDate().substring(0,11) + bbs.getBbsDate().substring(11,13) + "시" + bbs.getBbsDate().substring(14,16) + "분" %></td>
 					</tr>
 					<tr>
-						<td>내용</td>
+						<td style="text-align: center; border: 1px solid #dddddd">내용</td>
 						<td colspan="2" style="min-height: 300px; text-align: left;"><%= bbs.getBbsContent().replaceAll(" ","&nbsp;").replaceAll("<", "&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
 					</tr>
+					
+					<%
+						if(fileName != null)
+						{
+					%>						
+						<tr>
+							<td style="text-align: center; border: 1px solid #dddddd; vertical-align: middle; width: 10%;">사진</td>
+							<td>
+								<div class="item active">
+									<img src="images/<%= fileName %>" width="600" height="400">
+								</div>
+							</td>
+						</tr>
+					<%
+						}
+					%>
+					
+					
 				</tbody>
 			</table>
 			<a href="bbs.jsp" class="btn btn-primary">목록</a>
